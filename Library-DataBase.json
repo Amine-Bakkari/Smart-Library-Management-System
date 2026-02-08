@@ -1,0 +1,269 @@
+{
+    "Books": [
+        {
+            "Name": "Book1",
+            "Type": "SienceFiction",
+            "PossesionNumber": 8,
+            "Available": 1,
+            "Price": 30,
+            "SerialNumber": "SF001",
+            "Lented": [
+                {
+                    "LentedTo": "Student2",
+                    "LentedDate": "2026-02-20",
+                    "RetrievingDate": "2026-03-20"
+                },
+                {
+                    "LentedTo": "Student3",
+                    "LentedDate": "2026-03-25",
+                    "RetrievingDate": "2026-04-25"
+                },
+                {
+                    "LentedTo": "Abdelaziz",
+                    "LentedDate": "245",
+                    "RetrievingDate": "34"
+                },
+                {
+                    "LentedTo": "Abdelaziz",
+                    "LentedDate": "245",
+                    "RetrievingDate": "34"
+                },
+                {
+                    "LentedTo": "Adelaziz",
+                    "LentedDate": "10-01-2026",
+                    "RetrievingDate": "15-01-2026"
+                },
+                {
+                    "LentedTo": "Adelaziz",
+                    "LentedDate": "10-01-2026",
+                    "RetrievingDate": "15-01-2026"
+                },
+                {
+                    "LentedTo": "Adelaziz",
+                    "LentedDate": "10-01-2026",
+                    "RetrievingDate": "15-01-2026"
+                }
+            ]
+        },
+        {
+            "Name": "Book2",
+            "Type": "Aventure",
+            "PossesionNumber": 5,
+            "Available": 3,
+            "Price": 25,
+            "SerialNumber": "AV002",
+            "Lented": [
+                {
+                    "LentedTo": "Student4",
+                    "LentedDate": "2026-01-10",
+                    "RetrievingDate": "2026-02-10"
+                },
+                {
+                    "LentedTo": "Student5",
+                    "LentedDate": "2026-02-15",
+                    "RetrievingDate": "2026-03-15"
+                }
+            ]
+        },
+        {
+            "Name": "Book3",
+            "Type": "SienceFiction",
+            "PossesionNumber": 7,
+            "Available": 4,
+            "Price": 28,
+            "SerialNumber": "SF003",
+            "Lented": [
+                {
+                    "LentedTo": "Student6",
+                    "LentedDate": "2026-03-01",
+                    "RetrievingDate": "2026-04-01"
+                },
+                {
+                    "LentedTo": "Student7",
+                    "LentedDate": "2026-03-05",
+                    "RetrievingDate": "2026-04-05"
+                },
+                {
+                    "LentedTo": "Student8",
+                    "LentedDate": "2026-03-10",
+                    "RetrievingDate": "2026-04-10"
+                }
+            ]
+        },
+        {
+            "Name": "Book4",
+            "Type": "Aventure",
+            "PossesionNumber": 6,
+            "Available": 2,
+            "Price": 27,
+            "SerialNumber": "AV004",
+            "Lented": [
+                {
+                    "LentedTo": "Student9",
+                    "LentedDate": "2026-02-20",
+                    "RetrievingDate": "2026-03-20"
+                },
+                {
+                    "LentedTo": "Student10",
+                    "LentedDate": "2026-03-15",
+                    "RetrievingDate": "2026-04-15"
+                },
+                {
+                    "LentedTo": "Student11",
+                    "LentedDate": "2026-03-25",
+                    "RetrievingDate": "2026-04-25"
+                },
+                {
+                    "LentedTo": "Student12",
+                    "LentedDate": "2026-04-01",
+                    "RetrievingDate": "2026-05-01"
+                }
+            ]
+        },
+        {
+            "Name": "Book5",
+            "Type": "SienceFiction",
+            "PossesionNumber": 9,
+            "Available": 6,
+            "Price": 32,
+            "SerialNumber": "SF005",
+            "Lented": [
+                {
+                    "LentedTo": "Student12",
+                    "LentedDate": "2026-01-05",
+                    "RetrievingDate": "2026-02-05"
+                },
+                {
+                    "LentedTo": "Student13",
+                    "LentedDate": "2026-02-10",
+                    "RetrievingDate": "2026-03-10"
+                },
+                {
+                    "LentedTo": "Student14",
+                    "LentedDate": "2026-03-15",
+                    "RetrievingDate": "2026-04-15"
+                }
+            ]
+        },
+        {
+            "Name": "Book6",
+            "Type": "Letterature",
+            "PossesionNumber": 4,
+            "Available": 1,
+            "Price": 24,
+            "SerialNumber": "LT006",
+            "Lented": [
+                {
+                    "LentedTo": "Student15",
+                    "LentedDate": "2026-02-01",
+                    "RetrievingDate": "2026-03-01"
+                },
+                {
+                    "LentedTo": "Student16",
+                    "LentedDate": "2026-03-05",
+                    "RetrievingDate": "2026-04-05"
+                },
+                {
+                    "LentedTo": "Student17",
+                    "LentedDate": "2026-04-10",
+                    "RetrievingDate": "2026-05-10"
+                }
+            ]
+        },
+        {
+            "Name": "Book7",
+            "Type": "Relegion",
+            "PossesionNumber": 3,
+            "Available": 0,
+            "Price": 20,
+            "SerialNumber": "RL007",
+            "Lented": [
+                {
+                    "LentedTo": "Student17",
+                    "LentedDate": "2026-01-20",
+                    "RetrievingDate": "2026-02-20"
+                },
+                {
+                    "LentedTo": "Student18",
+                    "LentedDate": "2026-02-25",
+                    "RetrievingDate": "2026-03-25"
+                },
+                {
+                    "LentedTo": "Student19",
+                    "LentedDate": "2026-03-30",
+                    "RetrievingDate": "2026-04-30"
+                }
+            ]
+        },
+        {
+            "Name": "Book8",
+            "Type": "Letterature",
+            "PossesionNumber": 2,
+            "Available": 0,
+            "Price": 18,
+            "SerialNumber": "LT008",
+            "Lented": [
+                {
+                    "LentedTo": "Student20",
+                    "LentedDate": "2026-02-15",
+                    "RetrievingDate": "2026-03-15"
+                },
+                {
+                    "LentedTo": "Student21",
+                    "LentedDate": "2026-03-20",
+                    "RetrievingDate": "2026-04-20"
+                }
+            ]
+        },
+        {
+            "Name": "Book9",
+            "Type": "Relegion",
+            "PossesionNumber": 10,
+            "Available": 7,
+            "Price": 35,
+            "SerialNumber": "RL009",
+            "Lented": [
+                {
+                    "LentedTo": "Student22",
+                    "LentedDate": "2026-01-30",
+                    "RetrievingDate": "2026-02-28"
+                },
+                {
+                    "LentedTo": "Student23",
+                    "LentedDate": "2026-02-28",
+                    "RetrievingDate": "2026-03-30"
+                },
+                {
+                    "LentedTo": "Student24",
+                    "LentedDate": "2026-03-30",
+                    "RetrievingDate": "2026-04-30"
+                }
+            ]
+        },
+        {
+            "Name": "Book10",
+            "Type": "Relegion",
+            "PossesionNumber": 11,
+            "Available": 8,
+            "Price": 38,
+            "SerialNumber": "RL010",
+            "Lented": [
+                {
+                    "LentedTo": "Student25",
+                    "LentedDate": "2026-01-10",
+                    "RetrievingDate": "2026-02-10"
+                },
+                {
+                    "LentedTo": "Student26",
+                    "LentedDate": "2026-02-15",
+                    "RetrievingDate": "2026-03-15"
+                },
+                {
+                    "LentedTo": "Student27",
+                    "LentedDate": "2026-03-20",
+                    "RetrievingDate": "2026-04-20"
+                }
+            ]
+        }
+    ]
+}
