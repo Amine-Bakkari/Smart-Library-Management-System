@@ -1,6 +1,7 @@
 from customtkinter import *
 import json as js
 from sqlite3 import *
+from datetime import datetime
 
 Main = CTk()
 Main.geometry("800x500")
@@ -40,13 +41,13 @@ def LentingHandling():
     StudentID = LStudentIDEntry.get()
     BorrowDate = DateOfBorrowEntry.get()
     RetrieveDate = DateOfRetrieveEntry.get()
-    # if BookName and StudentName and DateLent and DateRetrieve:
+    # if BookTitle and StudentID and BorrowDate and RetrieveDate:
     #     for Book in DataBase["Books"]:
-    #         if Book["Name"] == BookName or Book["SerialNumber"] == BookName:
+    #         if Book["Name"] == BookTitle or Book["SerialNumber"] == BookTitle:
     #             if Book["Available"] > 0:
     #                 ResultLabel.configure(text="Borrow Successfully", text_color="green")
     #                 DataBase["Books"][DataBase["Books"].index(Book)]["Available"] -= 1
-    #                 DataBase["Books"][DataBase["Books"].index(Book)]["Lented"].append({"LentedTo":StudentName, "LentedDate":DateLent, "RetrievingDate":DateRetrieve})
+    #                 DataBase["Books"][DataBase["Books"].index(Book)]["Lented"].append({"LentedTo":StudentID, "LentedDate":BorrowDate, "RetrievingDate":RetrieveDate})
     #                 with open(r"C:\Users\Abdelaziz\Programation\PythonProjects\Smart Library Management System\Library-DataBase.json", "w+") as DB:
     #                     js.dump(DataBase, DB, indent=4)
     #                 return
@@ -82,8 +83,8 @@ RetrievingFrame.place(x=410, y=48)
 RetrievingTitleLabel = CTkLabel(RetrievingFrame, text="Retrieving", font=("Arial", 15))
 RetrievingTitleLabel.place(x=150, y=5)
 
-BookToRetrieveNameEntry = CTkEntry(RetrievingFrame, width=210, placeholder_text="Enter book name or serial number")
-BookToRetrieveNameEntry.place(x=80, y=50)
+BookToRetrieveTitleEntry = CTkEntry(RetrievingFrame, width=210, placeholder_text="Enter book name or serial number")
+BookToRetrieveTitleEntry.place(x=80, y=50)
 
 RStudentNameEntry = CTkEntry(RetrievingFrame, width=210, placeholder_text="Enter student name or ID")
 RStudentNameEntry.place(x=80, y=90)
@@ -94,22 +95,31 @@ RetrievedDateEntry = CTkEntry(RetrievingFrame, width=100, placeholder_text="DD-M
 RetrievedDateEntry.place(x=132, y=160)
 
 def RetrievingHandling():
-    with open(r"C:\Users\Abdelaziz\Programation\PythonProjects\Smart Library Management System\Library-DataBase.json", "r") as DB:
-        DataBase = js.load(DB)
-    BookName = BookToRetrieveNameEntry.get()
+    # with open(r"C:\Users\Abdelaziz\Programation\PythonProjects\Smart Library Management System\Library-DataBase.json", "r") as DB:
+    #     DataBase = js.load(DB)
+    BookTitle = BookToRetrieveTitleEntry.get()
     StudentName = RStudentNameEntry.get()
-    RetrievingDate = RetrievedDateEntry.get()
+    ReturnDate = RetrievedDateEntry.get()
 
-    for Book in DataBase["Books"]:
-        if Book["Name"] == BookName or Book["SerialNumber"] == BookName:
-            for LentedRecord in Book["Lented"]:
-                if LentedRecord["LentedTo"] == StudentName:
-                    DataBase["Books"][DataBase["Books"].index(Book)]["Available"] += 1
-                    DataBase["Books"][DataBase["Books"].index(Book)]["Lented"].remove(LentedRecord)
-                    with open(r"C:\Users\Abdelaziz\Programation\PythonProjects\Smart Library Management System\Library-DataBase.json", "w+") as DB:
-                        js.dump(DataBase, DB, indent=4)
-                    RResultLabel.configure(text="Retrieved Successfully", text_color="green")
-                    return
+    # for Book in DataBase["Books"]:
+    #     if Book["Name"] == BookTitle or Book["SerialNumber"] == BookTitle:
+    #         for LentedRecord in Book["Lented"]:
+    #             if LentedRecord["LentedTo"] == StudentName:
+    #                 DataBase["Books"][DataBase["Books"].index(Book)]["Available"] += 1
+    #                 DataBase["Books"][DataBase["Books"].index(Book)]["Lented"].remove(LentedRecord)
+    #                 with open(r"C:\Users\Abdelaziz\Programation\PythonProjects\Smart Library Management System\Library-DataBase.json", "w+") as DB:
+    #                     js.dump(DataBase, DB, indent=4)
+    #                 RResultLabel.configure(text="Retrieved Successfully", text_color="green")
+    #                 return
+
+    DBF = connect("Library-DataBase.db")
+    Cursor = DBF.cursor()
+
+    Cursor.execute("UPDATE books SET available_number = available_number + 1 WHERE book_title = ?", (BookTitle,))
+    Cursor.execute("UPDATE borrow SET return_date = ? WHERE book_title = ? AND student_name = ?", (ReturnDate, BookTitle, StudentName,))
+
+    DBF.commit()
+    DBF.close()
 
 
 RetriveButton = CTkButton(RetrievingFrame, text="Retrieved", command=RetrievingHandling)
@@ -118,12 +128,30 @@ RetriveButton.place(x=110, y=210)
 RResultLabel = CTkLabel(RetrievingFrame, text="", font=("Arial", 14))
 RResultLabel.place(x=260, y=210)
 
+def CalculateDaysLeft(retrieve_date):
+    Today = datetime.today()
+    RetrieveDate = datetime.strptime(retrieve_date, "%d-%m-%Y")
+    DaysLeft = (RetrieveDate - Today ).days + 1
+    return DaysLeft
+
+
 def SearchStudents():
-    print("Search Students")
+    StudentsToShow = [{"Name": "Student1", "DaysLeft": "8 Days"}, {"Name": "Student2", "DaysLeft": "3 Days"}, {"Name": "Student3", "DaysLeft": "6 Days"}]
+    DBF = connect("Library-DataBase.db")
+    Cursor = DBF.cursor()
+
+    Students = Cursor.execute("SELECT student_name, retrieve_date FROM borrow WHERE return_date IS NULL").fetchall()
+    for Student in Students:
+        DaysLeft = CalculateDaysLeft(Student[1])
+        StudentsToShow.append({"Name": Student[0], "DaysLeft": DaysLeft})
+    for Student in StudentsToShow:
+        StudentLabel = CTkLabel(NotificationFrame, text=f"{Student['Name']} - {Student['DaysLeft']}", font=("Arial", 14)).pack(pady=5)
+    DBF.commit()
+    DBF.close()
 
 NotificationFrame = CTkFrame(Main, corner_radius=10, height=200)
 NotificationFrame.pack(padx=20, pady=15, fill="both")
 
-
+SearchStudents()
 
 Main.mainloop()
