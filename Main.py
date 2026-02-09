@@ -136,7 +136,7 @@ def CalculateDaysLeft(retrieve_date):
 
 
 def SearchStudents():
-    StudentsToShow = [{"Name": "Student1", "DaysLeft": "8 Days"}, {"Name": "Student2", "DaysLeft": "3 Days"}, {"Name": "Student3", "DaysLeft": "6 Days"}]
+    StudentsToShow = []
     DBF = connect("Library-DataBase.db")
     Cursor = DBF.cursor()
 
@@ -149,7 +149,7 @@ def SearchStudents():
     DBF.commit()
     DBF.close()
 
-NotificationFrame = CTkFrame(Main, corner_radius=10, height=200)
+NotificationFrame = CTkScrollableFrame(Main, corner_radius=10, height=200)
 NotificationFrame.pack(padx=20, pady=15, fill="both")
 
 SearchStudents()
