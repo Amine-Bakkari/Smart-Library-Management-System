@@ -66,6 +66,7 @@ def LentingHandling():
 
     DBF.commit()
     DBF.close()
+    
 
 LentButton = CTkButton(LentingFrame, text="Lent Book", command=LentingHandling)
 LentButton.place(x=110, y=210)
