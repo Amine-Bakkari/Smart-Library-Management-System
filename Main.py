@@ -136,7 +136,7 @@ def CalculateDaysLeft(retrieve_date):
 
 
 def SearchStudents():
-    StudentsToShow = [{"Name": "Student Name - Days Left"}]
+    StudentsToShow = []
     DBF = connect("Library-DataBase.db")
     Cursor = DBF.cursor()
 
