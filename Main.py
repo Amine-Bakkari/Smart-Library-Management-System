@@ -34,7 +34,7 @@ DateOfRetrieveLabel.place(x=210, y=135)
 DateOfRetrieveEntry = CTkEntry(LentingFrame, width=100, placeholder_text="DD-MM-YYYY")
 DateOfRetrieveEntry.place(x=210, y=160)
 
-def LentingHandling():
+def BorrowHandling():
     # with open(r"C:\Users\Abdelaziz\Programation\PythonProjects\Smart Library Management System\Library-DataBase.json", "r") as DB:
     #     DataBase = js.load(DB)
     BookTitle = BookToLentTitleEntry.get()
@@ -58,19 +58,20 @@ def LentingHandling():
     #     ResultLabel.configure(text="Error", text_color="red")
 
     DBF = connect("Library-DataBase.db")
-    Cursor = DBF.cursor()
+    cursor = DBF.cursor()
     
-    StudentName = Cursor.execute("SELECT student_name FROM students WHERE student_id = ?", (StudentID,))
+    StudentName = cursor.execute("SELECT student_name FROM students WHERE student_id = ?", (StudentID,)).fetchone()
+    tupleToInsert = (StudentID, StudentName[0], BorrowDate, RetrieveDate, BookTitle, "")
 
-    Cursor.execute("INSERT INTO borrow VALUES(?,?,?,?,?)", (StudentID, StudentName, BorrowDate, RetrieveDate, BookTitle,))
-    Cursor.execute("UPDATE books SET available_number = available_number - 1 WHERE book_title = ? OR serial_number = ?", (BookTitle, BookTitle,))
+    cursor.execute("INSERT INTO borrow VALUES(?,?,?,?,?,?)", tupleToInsert)
+    cursor.execute("UPDATE books SET book_available_number = book_available_number - 1 WHERE book_title = ? OR book_serial_number = ?", (BookTitle, BookTitle,))
 
     DBF.commit()
     DBF.close()
 
 
-LentButton = CTkButton(LentingFrame, text="Lent Book", command=LentingHandling)
-LentButton.place(x=110, y=210)
+BorrowButton = CTkButton(LentingFrame, text="Borrow Book", command=BorrowHandling)
+BorrowButton.place(x=110, y=210)
 
 ResultLabel = CTkLabel(LentingFrame, text="", font=("Arial", 14))
 ResultLabel.place(x=260, y=210)
@@ -113,10 +114,10 @@ def RetrievingHandling():
     #                 return
 
     DBF = connect("Library-DataBase.db")
-    Cursor = DBF.cursor()
+    cursor = DBF.cursor()
 
-    Cursor.execute("UPDATE books SET available_number = available_number + 1 WHERE book_title = ?", (BookTitle,))
-    Cursor.execute("UPDATE borrow SET return_date = ? WHERE book_title = ? AND student_name = ?", (ReturnDate, BookTitle, StudentName,))
+    cursor.execute("UPDATE books SET book_available_number = book_available_number + 1 WHERE book_title = ?", (BookTitle,))
+    cursor.execute("UPDATE borrow SET return_date = ? WHERE book_title = ? AND student_name = ?", (ReturnDate, BookTitle, StudentName,))
 
     DBF.commit()
     DBF.close()
@@ -138,9 +139,9 @@ def CalculateDaysLeft(retrieve_date):
 def SearchStudents():
     StudentsToShow = []
     DBF = connect("Library-DataBase.db")
-    Cursor = DBF.cursor()
+    cursor = DBF.cursor()
 
-    Students = Cursor.execute("SELECT student_name, retrieve_date FROM borrow WHERE return_date IS NULL").fetchall()
+    Students = cursor.execute("SELECT student_name, retrieve_date FROM borrow WHERE return_date IS NULL").fetchall()
     for Student in Students:
         DaysLeft = CalculateDaysLeft(Student[1])
         StudentsToShow.append({"Name": Student[0], "DaysLeft": DaysLeft})
