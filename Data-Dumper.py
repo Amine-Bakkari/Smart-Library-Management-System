@@ -8,7 +8,7 @@ students = [("C364714335", "ahmed haj", "null"),
 books = [
     ("rich dad", "financial", "WEJ435KLK235", 30, 10, 10),
     ("universal language", "culture", "NIDG34IJOI42", 50, 20, 20),
-    ("the 7 habits", "self development", "KLK435JN2435", 100, 15, 15)
+    ("the 7 habits", "self development", "KLK435JN2435", 100, 8, 8)
 ]
 
 dbf = connect("Library-DataBase.db")
