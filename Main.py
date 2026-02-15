@@ -5,6 +5,7 @@ from datetime import datetime
 
 Main = CTk()
 Main.geometry("800x500")
+Main.resizable(False, False)
 Main.title("School Library Management System")
 
 TitleLabel = CTkLabel(Main, text="Welcome to the School Library Management System", font=("Arial", 20))
@@ -61,6 +62,29 @@ def BorrowHandling():
     cursor = DBF.cursor()
     
     StudentName = cursor.execute("SELECT student_name FROM students WHERE student_id = ?", (StudentID,)).fetchone()
+    # Verify if the book is available
+    Available = cursor.execute("SELECT book_available_number FROM books WHERE book_title = ? OR book_serial_number = ?", (BookTitle, BookTitle,)).fetchone()
+    if Available[0] == 0:
+        ResultLabel.configure(text="Book Not Available", text_color="red")
+        DBF.close()
+        return
+    # Verify if the student exists
+    if not StudentName:
+        ResultLabel.configure(text="Student Not Found", text_color="red")
+        DBF.close()
+        return
+    # Verify if the student has already borrowed the same book and didn't return it yet
+    AlreadyBorrowed = cursor.execute("SELECT * FROM borrow WHERE student_id = ? AND book_title = ? AND return_date IS NULL", (StudentID, BookTitle,)).fetchone()
+    if AlreadyBorrowed:
+        ResultLabel.configure(text="You have already borrowed this book", text_color="red")
+        DBF.close()
+        return
+    # Verify if the student has already borrowed 1 book and didn't return them yet
+    AlreadyBorrowed2 = cursor.execute("SELECT * FROM borrow WHERE student_id = ? AND return_date IS NULL", (StudentID,)).fetchall()
+    if len(AlreadyBorrowed2) >= 1:
+        ResultLabel.configure(text="You have already borrowed a book", text_color="red")
+        DBF.close()
+        return
     tupleToInsert = (StudentID, StudentName[0], BorrowDate, RetrieveDate, BookTitle, "")
 
     cursor.execute("INSERT INTO borrow VALUES(?,?,?,?,?,?)", tupleToInsert)
