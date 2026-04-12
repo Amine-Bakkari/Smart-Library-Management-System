@@ -1,5 +1,6 @@
 from customtkinter import *
-from Book_Component_Alpha import BookComponent
+from Book_Component_Alpha import Book_Component
+from sqlite3 import *
 
 def hello():
     return CTkLabel(app, text="Hello World").pack()
@@ -7,6 +8,14 @@ def hello():
 app = CTk()
 app.geometry("500x500")
 
-Book = BookComponent(app, "Nature", 19.99, 5, "Books_Images/Book1.jpg", hello, hello)
+Frame = CTkScrollableFrame(app, width=400, height=400, bg_color="#5DFFE9", fg_color="#5DFFE9", corner_radius=10)
+Frame.pack(padx=10, pady=10)
+
+DBF = connect("Library-DataBase.db")
+cursor = DBF.cursor()
+books =cursor.execute("SELECT * FROM books").fetchall()
+for book in books:
+    Book_Component(Frame, book[0], book[3], book[5], f"Books_Images/{book[0]}.jpg", hello, hello).pack(pady=10)
+DBF.close()
 
 app.mainloop()
