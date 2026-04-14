@@ -15,7 +15,7 @@ DBF = connect("Library-DataBase.db")
 cursor = DBF.cursor()
 books =cursor.execute("SELECT * FROM books").fetchall()
 for book in books:
-    Book_Component(Frame, book[0], book[3], book[5], f"Books_Images/{book[0]}.jpg", hello, hello).pack(pady=10)
+    Book_Component(Frame, book[0], book[3], book[5], book[6], hello, hello).pack(pady=10)
 DBF.close()
 
 app.mainloop()
