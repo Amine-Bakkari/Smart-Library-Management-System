@@ -1,31 +1,31 @@
 from sqlite3 import *
 
-students = [("C364714335", "ahmed haj", "null"),
-            ("B435671257", "jamal jeddari", "null"),
-            ("A134683465", "nada kawi", "null"),
-            ("D435671257", "mohamed elshazly", "null"),
-            ("E134683465", "sara mohamed", "null"),
-            ("F435671257", "yousef mohamed", "null"),
-            ("G134683465", "ahmed badr", "null"),
-            ("H245781326", "fatima hassan", "null"),
-            ("I562304781", "karim ali", "null"),
-            ("J834672015", "leila amira", "null"),
-            ("K128694537", "hassan rashid", "null"),
-            ("L456781234", "mona khalid", "null"),
-            ("M789012345", "omar hassan", "null"),
-            ("N321456789", "aisha mohammed", "null"),
-            ("O654321098", "tariq ibrahim", "null"),
-            ("P987654321", "dina saleh", "null"),
-            ("Q147258369", "rashed samir", "null"),
-            ("R369852147", "layla sani", "null"),
-            ("S258369741", "amina nasir", "null"),
-            ("T741963258", "sameer hamad", "null"),
-            ("U852147369", "huda ali", "null"),
-            ("V369741852", "bilal fateh", "null"),
-            ("W147852963", "noura ahmed", "null"),
-            ("X963258741", "samir rashid", "null"),
-            ("Y258963147", "mariam ali", "null"),
-            ("Z741258963", "mahdi salem", "null"),
+students = [("C364714335", "ahmed haj", "good"),
+            ("B435671257", "jamal jeddari", "good"),
+            ("A134683465", "nada kawi", "good"),
+            ("D435671257", "mohamed elshazly", "good"),
+            ("E134683465", "sara mohamed", "good"),
+            ("F435671257", "yousef mohamed", "good"),
+            ("G134683465", "ahmed badr", "good"),
+            ("H245781326", "fatima hassan", "good"),
+            ("I562304781", "karim ali", "good"),
+            ("J834672015", "leila amira", "good"),
+            ("K128694537", "hassan rashid", "good"),
+            ("L456781234", "mona khalid", "good"),
+            ("M789012345", "omar hassan", "good"),
+            ("N321456789", "aisha mohammed", "good"),
+            ("O654321098", "tariq ibrahim", "good"),
+            ("P987654321", "dina saleh", "good"),
+            ("Q147258369", "rashed samir", "good"),
+            ("R369852147", "layla sani", "good"),
+            ("S258369741", "amina nasir", "good"),
+            ("T741963258", "sameer hamad", "good"),
+            ("U852147369", "huda ali", "good"),
+            ("V369741852", "bilal fateh", "good"),
+            ("W147852963", "noura ahmed", "good"),
+            ("X963258741", "samir rashid", "good"),
+            ("Y258963147", "mariam ali", "good"),
+            ("Z741258963", "mahdi salem", "good"),
 
 ]
 
@@ -46,11 +46,11 @@ dbf = connect("Library-DataBase.db")
 cursor = dbf.cursor()
 
 # Create a table named students
-cursor.execute("CREATE TABLE IF NOT EXISTS students(student_id TEXT PRIMRARY KEY, student_name TEXT, student_discipline TEXT DEFAULT NULL)")
+cursor.execute("CREATE TABLE IF NOT EXISTS students(student_id TEXT PRIMRARY KEY, student_name TEXT, student_discipline TEXT)")
 # Create a table named books
 cursor.execute("CREATE TABLE IF NOT EXISTS books(book_title TEXT PRIMARY KEY, book_type TEXT, book_serial_number TEXT, book_price INTEGER, book_possesion_number INTEGER, book_available_number INTEGER, book_image_path TEXT)")
 # Create a table named borrow
-cursor.execute("CREATE TABLE IF NOT EXISTS borrow(student_name TEXT, student_id TEXT, borrow_date TEXT, retrieve_date TEXT, book_title TEXT, return_date TEXT)")
+cursor.execute("CREATE TABLE IF NOT EXISTS borrow(student_id TEXT, book_id TEXT, borrow_date TEXT, retrieve_date TEXT, return_date TEXT)")
 # Insert at least 3 students in the students table
 cursor.executemany("INSERT INTO students VALUES(?,?,?)", students)
 # Insert at least 3 books in the books table
