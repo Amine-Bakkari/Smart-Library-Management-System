@@ -4,6 +4,7 @@ from sqlite3 import *
 import datetime
 from CTkMessagebox import CTkMessagebox
 
+
 BookID = str()
 
 class BookAccess(CTk):
@@ -11,29 +12,37 @@ class BookAccess(CTk):
         super().__init__()
         self.title("Book access")
         self.geometry("2000x1000+0+0")
-        # self.attributes("-fullscreen", True)
         global BookID
         BookID = BookId
+        DBF = connect("Library-DataBase.db")
+        cursor = DBF.cursor()
+        book = cursor.execute("SELECT * FROM Books WHERE book_serial_number = ?", (BookID,)).fetchone()
 
-        BookInfosFrame = CTkFrame(self, width=1260, height=300, fg_color="#2b2b2b")
+        BookInfosFrame = CTkFrame(self, width=1240, height=300, fg_color="#2b2b2b")
         BookInfosFrame.place(x=10, y=10)
+
+        BookIdentity = BookInfosShow(BookInfosFrame, book)
+        BookIdentity.pack(padx=10, pady=10)
 
         BorrowFrame = CTkScrollableFrame(self, width=1240, height=355, fg_color="#58ffca")
         BorrowFrame.place(x=10, y=320)
 
-        searchEngine = SearchEngine(BorrowFrame)
+        searchEngine = SearchEngine(BorrowFrame, searchStudents, keyBind)
         searchEngine.pack(padx=10, pady=10)
+
+        DBF.commit()
+        DBF.close()
 
         self.mainloop()
 
-def search(StudentID, master):
+def searchStudents(StudentID, master):
     DBF = connect("Library-DataBase.db")
 
     cursor = DBF.cursor()
     cursor.execute("SELECT * FROM Students WHERE student_id = ?", (StudentID,))
     data = cursor.fetchone()
     if data:
-        StudentShow(data, master)
+        StudentShow(data, master, StudentInfosShow)
     else:
         CTkMessagebox(title="Info", message="Student not found.", icon="info", options=["OK"], )
         return
@@ -41,7 +50,7 @@ def search(StudentID, master):
     DBF.commit()
     DBF.close()
 
-def StudentShow(StudentInfos, master):
+def StudentShow(StudentInfos, master, StudentInfosShow):
     def clear_frame(frame):
         for widget in frame.winfo_children():
             if widget == frame.winfo_children()[0]:
@@ -59,10 +68,34 @@ def StudentShow(StudentInfos, master):
 def keyBind(event, search_query, master):
     event = event.char
     if event == "\r":
-        search(search_query, master)
+        searchStudents(search_query, master)
+
+
+class BookInfosShow(CTkFrame):
+    def __init__(self, master, BookInfos):
+        super().__init__(master)
+        self.configure(width=1242, height=300, fg_color="#2b2b2b", corner_radius=10)
+
+        bookImage = CTkLabel(self, text="", image=CTkImage(Image.open(BookInfos[7]), size=(217, 290)))
+        bookImage.place(x=10, y=0)
+
+        bookTitle = CTkLabel(self, text=f"{BookInfos[0]}", font=CTkFont(size=40), text_color="White")
+        bookTitle.place(x=500, y=10)
+
+        bookAuthor = CTkLabel(self, text=f"Author:        {BookInfos[1]}", font=CTkFont(size=20), text_color="White")
+        bookAuthor.place(x=500, y=110)
+
+        bookGenre = CTkLabel(self, text=f"Genre:          {BookInfos[2]}", font=CTkFont(size=20), text_color="White")
+        bookGenre.place(x=500, y=150)
+
+        bookAvailable = CTkLabel(self, text=f"Available:    {BookInfos[6]}", font=CTkFont(size=20), text_color="White")
+        bookAvailable.place(x=500, y=190)
+
+        bookPrice = CTkLabel(self, text=f"Price:            {BookInfos[5]}$", font=CTkFont(size=20), text_color="White")
+        bookPrice.place(x=500, y=230)
 
 class SearchEngine(CTkFrame):
-    def __init__(self, master, SearchEngineFunction=search):
+    def __init__(self, master, SearchEngineFunction=searchStudents, keyBind=keyBind):
         super().__init__(master)
 
         self.configure(width=580, height=45, fg_color="transparent", corner_radius=50)
@@ -82,7 +115,6 @@ def CommitBorrow(StudentID, BorrowDate, RetrieveDate):
     # Verify that the borrow date is before the retrieve date:
     try:
         BorrowDuration = (datetime.datetime.strptime(RetrieveDate, "%Y-%m-%d") - datetime.datetime.strptime(BorrowDate, "%Y-%m-%d")).days
-        print(BorrowDuration)
     except ValueError:
         CTkMessagebox(title="Info", message="Invalid date format.", icon="info")
         DBF.close()
@@ -150,5 +182,5 @@ def clearBorrowTable():
     DBF.commit()
     DBF.close()
 
-BookAccess("WEJ435KLK235")
+BookAccess("WEJ435KLK238")
 # clearBorrowTable()

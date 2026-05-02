@@ -30,16 +30,16 @@ students = [("C364714335", "ahmed haj", "good"),
 ]
 
 books = [
-    ("Nature", "Sciences", "WEJ435KLK235", 30, 10, 10, "Books_Images/Nature.jpg"),
-    ("Fluent English", "Language", "WEJ435KLK236", 25, 5, 5, "Books_Images/Fluent English.jpg"),
-    ("100 words nature", "Sciences", "WEJ435KLK237", 20, 8, 8, "Books_Images/100 words nature.jpg"),
-    ("The ten day draft", "Fiction", "WEJ435KLK238", 15, 6, 6, "Books_Images/The ten day draft.jpg"),
-    ("Robin hood", "Fiction", "WEJ435KLK239", 10, 12, 12, "Books_Images/Robin hood.jpg"),
-    ("Arthur hailey", "Fiction", "WEJ435KLK241", 18, 7, 7, "Books_Images/Arthur hailey.jpg"),
-    ("Nature milestones", "Sciences", "WEJ435KLK240", 35, 4, 4, "Books_Images/Nature milestones.jpg"),
-    ("Dark psychology", "Psychology", "WEJ435KLK242", 22, 9, 9, "Books_Images/Dark psychology.jpg"),
-    ("Dirk gently", "Fiction", "WEJ435KLK243", 12, 11, 11, "Books_Images/Dirk gently.jpg"),
-    ("Mars", "Astronomy", "WEJ435KLK244", 28, 3, 3, "Books_Images/Mars.jpg")
+    ("Nature", "Arthur Hailey", "Sciences", "WEJ435KLK235", 30, 10, 10, "Books_Images/Nature.jpg"),
+    ("Fluent English", "John Doe", "Language", "WEJ435KLK236", 25, 5, 5, "Books_Images/Fluent English.jpg"),
+    ("100 words nature", "Jane Smith", "Sciences", "WEJ435KLK237", 20, 8, 8, "Books_Images/100 words nature.jpg"),
+    ("The ten day draft", "John Doe", "Fiction", "WEJ435KLK238", 15, 6, 6, "Books_Images/The ten day draft.jpg"),
+    ("Robin hood", "John Doe", "Fiction", "WEJ435KLK239", 10, 12, 12, "Books_Images/Robin hood.jpg"),
+    ("Arthur hailey", "Arthur Hailey", "Fiction", "WEJ435KLK241", 18, 7, 7, "Books_Images/Arthur hailey.jpg"),
+    ("Nature milestones", "Arthur Hailey", "Sciences", "WEJ435KLK240", 35, 4, 4, "Books_Images/Nature milestones.jpg"),
+    ("Dark psychology", "Peter Smith", "Psychology", "WEJ435KLK242", 22, 9, 9, "Books_Images/Dark psychology.jpg"),
+    ("Dirk gently", "Douglas Adams", "Fiction", "WEJ435KLK243", 12, 11, 11, "Books_Images/Dirk gently.jpg"),
+    ("Mars", "Francois Chollet", "Astronomy", "WEJ435KLK244", 28, 3, 3, "Books_Images/Mars.jpg")
 ]
 
 dbf = connect("Library-DataBase.db")
@@ -48,13 +48,13 @@ cursor = dbf.cursor()
 # Create a table named students
 cursor.execute("CREATE TABLE IF NOT EXISTS students(student_id TEXT PRIMRARY KEY, student_name TEXT, student_discipline TEXT)")
 # Create a table named books
-cursor.execute("CREATE TABLE IF NOT EXISTS books(book_title TEXT PRIMARY KEY, book_type TEXT, book_serial_number TEXT, book_price INTEGER, book_possesion_number INTEGER, book_available_number INTEGER, book_image_path TEXT)")
+cursor.execute("CREATE TABLE IF NOT EXISTS books(book_title TEXT PRIMARY KEY, book_author TEXT, book_type TEXT, book_serial_number TEXT, book_price INTEGER, book_possesion_number INTEGER, book_available_number INTEGER, book_image_path TEXT)")
 # Create a table named borrow
 cursor.execute("CREATE TABLE IF NOT EXISTS borrow(student_id TEXT, book_id TEXT, borrow_date TEXT, retrieve_date TEXT, return_date TEXT)")
 # Insert at least 3 students in the students table
 cursor.executemany("INSERT INTO students VALUES(?,?,?)", students)
 # Insert at least 3 books in the books table
-cursor.executemany("INSERT INTO books VALUES(?,?,?,?,?,?,?)", books)
+cursor.executemany("INSERT INTO books VALUES(?,?,?,?,?,?,?,?)", books)
 
 dbf.commit()
 dbf.close()
