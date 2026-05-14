@@ -6,7 +6,7 @@ from CTkMessagebox import CTkMessagebox
 
 BookID = str()
 
-class BookAccess(CTk):
+class BookRetrieveAccess(CTk):
     def __init__(self, BookId):
         super().__init__()
         self.title("Book access")
@@ -41,12 +41,12 @@ def searchStudents(StudentID, master):
     DBF = connect("Library-DataBase.db")
 
     cursor = DBF.cursor()
-    cursor.execute("SELECT * FROM borrow WHERE student_id = ?, book_id = ?", (StudentID, BookID))
-    data = cursor.fetchone()
+    data = cursor.execute("SELECT * FROM borrow WHERE student_id = ? AND book_id = ?", (StudentID, BookID,)).fetchall()
+    print(data)
     if data:
         StudentShow(data, master, StudentInfosShowComponent)
     else:
-        CTkMessagebox(title="Info", message="Student not found.", icon="info", options=["OK"], )
+        CTkMessagebox(title="Info", message="Student not found.", icon="info", options=["OK"])
         return
 
     DBF.commit()
@@ -68,7 +68,7 @@ def StudentShow(BorrowsInfos, master, StudentInfosShowComponent):
         BorrowDate = BorrowInfos[2]
         RetrieveDate = BorrowInfos[3]
         StudentID = BorrowInfos[0]
-        Student = cursor.execute("SELECT * FROM Students WHERE student_id = ?", (StudentID,)).fetchone()
+        Student = cursor.execute("SELECT * FROM students WHERE student_id = ?", (StudentID,)).fetchone()
         StudentName = Student[1]
         studentDisciplinaryStatus = Student[2]
 
@@ -81,7 +81,7 @@ def StudentShow(BorrowsInfos, master, StudentInfosShowComponent):
 def keyBind(event, search_query, master):
     event = event.char
     if event == "\r":
-        searchStudents(search_query, master, StudentInfosShowComponent)
+        searchStudents(search_query, master)
 
 
 class BookInfosShow(CTkFrame): #I have to do some changes here to make it compatible with the retrieve front end
@@ -108,7 +108,7 @@ class BookInfosShow(CTkFrame): #I have to do some changes here to make it compat
         bookPrice.place(x=500, y=230)
 
 def AutomaticStudentsSearch():
-    DBF = connect(r"Library-DataBase.db")
+    DBF = connect("Library-DataBase.db")
     cursor = DBF.cursor()
     Students = cursor.execute("SELECT * FROM borrow WHERE book_id = ? AND return_date = ?", (BookID, "")).fetchall()
     DBF.commit()
@@ -125,7 +125,7 @@ class SearchEngine(CTkFrame):
         SearchEngineEntry.place(x=0, y=0)
         SearchEngineEntry.bind("<KeyRelease>", lambda event: keyBind(event, SearchEngineEntry.get(), master))
 
-        SearchEngineButton = CTkButton(self, width=40, height=40, text="", corner_radius=100, fg_color="transparent", border_color="#ffc711", border_width=2, hover_color="#ff9741", command= lambda: SearchEngineFunction(SearchEngineEntry.get(), master, StudentInfosShowComponent), image=CTkImage(Image.open("External Materials/Search.png"), size=(20, 20)))
+        SearchEngineButton = CTkButton(self, width=40, height=40, text="", corner_radius=100, fg_color="transparent", border_color="#ffc711", border_width=2, hover_color="#ff9741", command= lambda: SearchEngineFunction(SearchEngineEntry.get(), master), image=CTkImage(Image.open("External Materials/Search.png"), size=(20, 20)))
         SearchEngineButton.place(x=510, y=0)
 
 def CommitRetrieve(StudentID, RetrieveDate):
@@ -214,5 +214,5 @@ def clearBorrowTable():
     DBF.commit()
     DBF.close()
 
-BookAccess("WEJ435KLK239")
+# BookRetrieveAccess("WEJ435KLK238")
 # clearBorrowTable()

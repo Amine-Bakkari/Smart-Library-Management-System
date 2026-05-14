@@ -7,7 +7,7 @@ from CTkMessagebox import CTkMessagebox
 
 BookID = str()
 
-class BookAccess(CTk):
+class BookBorrowAccess(CTk):
     def __init__(self, BookId):
         super().__init__()
         self.title("Book access")
@@ -182,5 +182,5 @@ def clearBorrowTable():
     DBF.commit()
     DBF.close()
 
-BookAccess("WEJ435KLK238")
+# BookBorrowAccess("WEJ435KLK238")
 # clearBorrowTable()

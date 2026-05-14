@@ -1,8 +1,10 @@
 from customtkinter import *
+from RetrieveFrontEnd import BookRetrieveAccess
+from BorrowFrontEnd import BookBorrowAccess
 from PIL import Image
 
 class Book_Component(CTkFrame):
-    def __init__(self, parent, name, price, available, image, BorrowFunction, RetrieveFunction):
+    def __init__(self, parent, name, serial_number, price, available, image):
         super().__init__(parent)
         PIimage = Image.open(image)
         self.configure(width=415, height=120, corner_radius=10)
@@ -22,6 +24,11 @@ class Book_Component(CTkFrame):
         book_borrow_button = CTkButton(self, text="Borrow", font=("Arial", 14), width=100, corner_radius=10, bg_color="#DBDBDB", command=BorrowFunction)
         book_borrow_button.place(x=130, y=80)
 
-        book_retrieve_button = CTkButton(self, text="Retrieve", font=("Arial", 14), width=100, corner_radius=10, bg_color="#DBDBDB", command=RetrieveFunction)
+        book_retrieve_button = CTkButton(self, text="Retrieve", font=("Arial", 14), width=100, corner_radius=10, bg_color="#DBDBDB", command=lambda: RetrieveFunction(serial_number))
         book_retrieve_button.place(x=240, y=80)
 
+def BorrowFunction():
+    BookBorrowAccess("WEJ435KLK244")
+
+def RetrieveFunction(SerialNumber):
+    BookRetrieveAccess(SerialNumber)
